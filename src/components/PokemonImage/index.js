@@ -3,7 +3,7 @@ import { imgUrl } from "./constants";
 import styled from "styled-components";
 import backgroundImage from "../../assets/background.png";
 
-const PokemonHiddenImage = ({ pokemonId }) => {
+const PokemonHiddenImage = ({ pokemonId, isHidden }) => {
   const BlankImage = styled.div`
     width: 960px;
     height: 540px;
@@ -12,8 +12,8 @@ const PokemonHiddenImage = ({ pokemonId }) => {
     z-index: 2;
   `;
 
-  const PokemonImage = styled.img`
-    filter: brightness(0);
+  const PokemonGuessImage = styled.img`
+    filter: ${isHidden ? "brightness(0)" : ""};
     position: absolute;
     z-index: 1;
   `;
@@ -32,7 +32,7 @@ const PokemonHiddenImage = ({ pokemonId }) => {
   return (
     <div style={{ height: "540px" }}>
       <BlankImage />
-      <PokemonImage src={getPokemonUrl(pokemonId)} />
+      <PokemonGuessImage src={getPokemonUrl(pokemonId)} />
       <BackgroundImage src={backgroundImage} />
     </div>
   );

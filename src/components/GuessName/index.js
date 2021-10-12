@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from "react";
 
-const GuessName = ({ name }) => {
+const GuessName = ({ name, onAnswer }) => {
   const [inputName, setInputName] = useState("");
+  const [answerOnCheck, setAnswerOnCheck] = useState(false);
 
   useEffect(() => {
     setInputName("");
+    setAnswerOnCheck(false);
   }, [name]);
 
-  const CheckAnswer = () => {
-    if (inputName === name) alert("acertou!");
-    else alert("errou??");
+  const checkAnswer = () => {
+    setAnswerOnCheck(true);
+    return onAnswer(inputName.toLowerCase() === name);
   };
 
+  const buttonDisabled = !inputName || answerOnCheck;
+
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        checkAnswer();
+      }}
+    >
       <input
         type="text"
         value={inputName}
+        autoFocus
         onChange={(e) => setInputName(e.target.value)}
       />
       <span>Number of letters: {name?.length || 0}</span>
-      <button onClick={() => CheckAnswer()}>Guess!</button>
-    </>
+      <button disabled={buttonDisabled} type="submit">
+        Guess!
+      </button>
+    </form>
   );
 };
 
